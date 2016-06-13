@@ -19,13 +19,13 @@ describe('lift2', function() {
            errorEq(TypeError,
                    'Invalid value\n' +
                    '\n' +
-                   'lift2 :: (Apply a, Apply b, Apply c) => Function -> a -> b -> c\n' +
-                   '                                        ^^^^^^^^\n' +
-                   '                                           1\n' +
+                   'lift2 :: Apply f => (a -> b -> c) -> f a -> f b -> f c\n' +
+                   '                    ^^^^^^^^^^^^^\n' +
+                   '                          1\n' +
                    '\n' +
                    '1)  "wrong" :: String\n' +
                    '\n' +
-                   'The value at position 1 is not a member of ‘Function’.\n'));
+                   'The value at position 1 is not a member of ‘a -> b -> c’.\n'));
   });
 
   it('lifts a function into the context of Applys', function() {

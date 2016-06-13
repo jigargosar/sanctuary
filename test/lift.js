@@ -19,13 +19,13 @@ describe('lift', function() {
            errorEq(TypeError,
                    'Invalid value\n' +
                    '\n' +
-                   'lift :: (Functor a, Functor b) => Function -> a -> b\n' +
-                   '                                  ^^^^^^^^\n' +
-                   '                                     1\n' +
+                   'lift :: Functor f => (a -> b) -> f a -> f b\n' +
+                   '                     ^^^^^^^^\n' +
+                   '                        1\n' +
                    '\n' +
                    '1)  "wrong" :: String\n' +
                    '\n' +
-                   'The value at position 1 is not a member of ‘Function’.\n'));
+                   'The value at position 1 is not a member of ‘a -> b’.\n'));
   });
 
   it('lifts a function into the context of Functors', function() {
