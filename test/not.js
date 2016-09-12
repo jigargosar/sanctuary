@@ -1,18 +1,21 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('not', function() {
 
-  it('is a unary function', function() {
-    eq(typeof S.not, 'function');
-    eq(S.not.length, 1);
-  });
+  utils.assertUnaryFunction(S.not);
 
   it('can be applied to Booleans', function() {
     eq(S.not(false), true);

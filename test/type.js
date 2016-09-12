@@ -1,17 +1,18 @@
 'use strict';
 
-var vm = require('vm');
+var vm          = require('vm');
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var eq          = utils.eq;
 
 
 describe('type', function() {
 
-  it('is a unary function', function() {
-    eq(typeof S.type, 'function');
-    eq(S.type.length, 1);
-  });
+  utils.assertUnaryFunction(S.type);
 
   it('operates on values of built-in types', function() {
     eq(S.type((function() { return arguments; }())),

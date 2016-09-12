@@ -1,18 +1,21 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('parseFloat', function() {
 
-  it('is a unary function', function() {
-    eq(typeof S.parseFloat, 'function');
-    eq(S.parseFloat.length, 1);
-  });
+  utils.assertUnaryFunction(S.parseFloat);
 
   it('type checks its arguments', function() {
     throws(function() { S.parseFloat([1, 2, 3]); },
@@ -29,6 +32,7 @@ describe('parseFloat', function() {
   });
 
   it('returns a Maybe', function() {
+    eq(S.parseFloat(''), S.Nothing);
     eq(S.parseFloat('12.34'), S.Just(12.34));
     eq(S.parseFloat('Infinity'), S.Just(Infinity));
     eq(S.parseFloat('-Infinity'), S.Just(-Infinity));

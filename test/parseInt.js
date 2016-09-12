@@ -1,18 +1,21 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('parseInt', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.parseInt, 'function');
-    eq(S.parseInt.length, 2);
-  });
+  utils.assertBinaryFunction(S.parseInt);
 
   it('type checks its arguments', function() {
     throws(function() { S.parseInt(0.5); },
@@ -151,6 +154,10 @@ describe('parseInt', function() {
     eq(S.parseInt(16, '+0XFF'), S.Just(255));
     eq(S.parseInt(16, '-0xFF'), S.Just(-255));
     eq(S.parseInt(16, '-0XFF'), S.Just(-255));
+  });
+
+  it('returns Nothing for empty string', function() {
+    eq(S.parseInt(10, ''), S.Nothing);
   });
 
   it('returns Nothing if one or more characters are invalid', function() {

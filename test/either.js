@@ -1,20 +1,21 @@
 'use strict';
 
-var R = require('ramda');
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
-var square = require('./utils').square;
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('either', function() {
 
-  it('is a ternary function', function() {
-    eq(typeof S.either, 'function');
-    eq(S.either.length, 3);
-  });
+  utils.assertTernaryFunction(S.either);
 
   it('type checks its arguments', function() {
     throws(function() { S.either([1, 2, 3]); },
@@ -29,7 +30,7 @@ describe('either', function() {
                    '\n' +
                    'The value at position 1 is not a member of ‘Function’.\n'));
 
-    throws(function() { S.either(R.__, square)([1, 2, 3]); },
+    throws(function() { S.either(S.__, Math.sqrt)([1, 2, 3]); },
            errorEq(TypeError,
                    'Invalid value\n' +
                    '\n' +
@@ -41,7 +42,7 @@ describe('either', function() {
                    '\n' +
                    'The value at position 1 is not a member of ‘Function’.\n'));
 
-    throws(function() { S.either(R.length, [1, 2, 3]); },
+    throws(function() { S.either(S.prop('length'), [1, 2, 3]); },
            errorEq(TypeError,
                    'Invalid value\n' +
                    '\n' +
@@ -53,7 +54,7 @@ describe('either', function() {
                    '\n' +
                    'The value at position 1 is not a member of ‘Function’.\n'));
 
-    throws(function() { S.either(R.length)([1, 2, 3]); },
+    throws(function() { S.either(S.prop('length'))([1, 2, 3]); },
            errorEq(TypeError,
                    'Invalid value\n' +
                    '\n' +
@@ -65,7 +66,7 @@ describe('either', function() {
                    '\n' +
                    'The value at position 1 is not a member of ‘Function’.\n'));
 
-    throws(function() { S.either(R.length, square, [1, 2, 3]); },
+    throws(function() { S.either(S.prop('length'), Math.sqrt, [1, 2, 3]); },
            errorEq(TypeError,
                    'Invalid value\n' +
                    '\n' +
@@ -77,7 +78,7 @@ describe('either', function() {
                    '\n' +
                    'The value at position 1 is not a member of ‘Either a b’.\n'));
 
-    throws(function() { S.either(R.length)(square)([1, 2, 3]); },
+    throws(function() { S.either(S.prop('length'))(Math.sqrt)([1, 2, 3]); },
            errorEq(TypeError,
                    'Invalid value\n' +
                    '\n' +
@@ -91,18 +92,18 @@ describe('either', function() {
   });
 
   it('can be applied to a Left', function() {
-    eq(S.either(R.length, square, S.Left('abc')), 3);
+    eq(S.either(S.prop('length'), Math.sqrt, S.Left('abc')), 3);
   });
 
   it('can be applied to a Right', function() {
-    eq(S.either(R.length, square, S.Right(42)), 1764);
+    eq(S.either(S.prop('length'), Math.sqrt, S.Right(9)), 3);
   });
 
   it('is curried', function() {
-    var f = R.length;
-    var g = square;
+    var f = S.prop('length');
+    var g = function(x) { return x * x; };
     var x = S.Left('abc');
-    var _ = R.__;
+    var _ = S.__;
 
     eq(S.either(f).length, 2);
     eq(S.either(f)(g).length, 1);

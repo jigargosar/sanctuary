@@ -1,15 +1,16 @@
 'use strict';
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var eq          = utils.eq;
 
 
 describe('K', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.K, 'function');
-    eq(S.K.length, 2);
-  });
+  utils.assertBinaryFunction(S.K);
 
   it('returns its first argument', function() {
     eq(S.K(21, []), 21);

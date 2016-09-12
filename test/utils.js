@@ -1,10 +1,12 @@
 'use strict';
 
-var assert = require('assert');
+var assert      = require('assert');
 
-var R = require('ramda');
+var FantasyLand = require('fantasy-land');
+var jsc         = require('jsverify');
+var Z           = require('sanctuary-type-classes');
 
-var S = require('../index.js');
+var S           = require('..');
 
 
 //      area :: Number -> Number -> Number -> Number !
@@ -21,15 +23,27 @@ exports.area = function(a) {
   };
 };
 
+['unary', 'binary', 'ternary', 'quaternary', 'quinary'].forEach(function(arity, idx) {
+  exports['assert' + arity.charAt(0).toUpperCase() + arity.slice(1) + 'Function'] = function(x) {
+    it('is a ' + arity + ' function', function() {
+      eq(typeof x, 'function');
+      eq(x.length, idx + 1);
+    });
+  };
+});
+
 var eq = exports.eq = function(actual, expected) {
   assert.strictEqual(arguments.length, 2);
-  assert.strictEqual(R.toString(actual), R.toString(expected));
+  assert.strictEqual(Z.toString(actual), Z.toString(expected));
+  assert.strictEqual(Z.equals(actual, expected), true);
 };
 
-//      errorEq :: TypeRep a -> String -> Error -> Boolean
-exports.errorEq = R.curry(function(type, message, error) {
-  return error.constructor === type && error.message === message;
-});
+//      errorEq :: (TypeRep a, String) -> Error -> Boolean
+exports.errorEq = function(type, message) {
+  return function(error) {
+    return error.constructor === type && error.message === message;
+  };
+};
 
 //      factorial :: Number -> Number !
 var factorial = exports.factorial = function(n) {
@@ -42,10 +56,8 @@ var factorial = exports.factorial = function(n) {
   }
 };
 
-//      parseHex :: String -> Either String Number
-exports.parseHex = function(s) {
-  var n = parseInt(s, 16);
-  return isNaN(n) ? S.Left('Invalid hexadecimal string') : S.Right(n);
+exports.forall = function() {
+  jsc.assert(jsc.forall.apply(jsc, arguments));
 };
 
 //      rem :: Number -> Number -> Number !
@@ -68,28 +80,36 @@ exports.highArity = function(a) {
 
 exports.runCompositionTests = function(compose) {
 
-  it('is a ternary function', function() {
-    eq(typeof compose, 'function');
-    eq(compose.length, 3);
-  });
+  exports.assertTernaryFunction(compose);
 
   it('composes two functions assumed to be unary', function() {
-    eq(compose(R.map(Math.sqrt), JSON.parse, '[1, 4, 9]'), [1, 2, 3]);
+    eq(compose(S.map(Math.sqrt), JSON.parse, '[1, 4, 9]'), [1, 2, 3]);
   });
 
   it('is curried', function() {
-    eq(compose(R.map(Math.sqrt)).length, 2);
-    eq(compose(R.map(Math.sqrt))(JSON.parse).length, 1);
-    eq(compose(R.map(Math.sqrt))(JSON.parse)('[1, 4, 9]'), [1, 2, 3]);
+    eq(compose(S.map(Math.sqrt)).length, 2);
+    eq(compose(S.map(Math.sqrt))(JSON.parse).length, 1);
+    eq(compose(S.map(Math.sqrt))(JSON.parse)('[1, 4, 9]'), [1, 2, 3]);
   });
 
 };
 
-//      square :: Number -> Number
-exports.square = function(n) { return n * n; };
+exports.testFantasyLandMethods = function(exemplars, strMap) {
+  var description = function(methodName) {
+    var determiner = /^[aeiou]/i.test(methodName) ? 'an' : 'a';
+    return 'provides ' + determiner + ' "' + methodName + '" method';
+  };
 
-//      squareRoot :: Number -> Either String Number
-exports.squareRoot = function(n) {
-  return n < 0 ? S.Left('Cannot represent square root of negative number')
-    : S.Right(Math.sqrt(n));
+  for (var methodName in strMap) {
+    it(description(FantasyLand[methodName]), function() {
+      strMap[methodName](FantasyLand[methodName]);
+    });
+
+    it(description(methodName), function() {
+      exemplars.forEach(function(x) {
+        eq(typeof x[methodName], 'function');
+        eq(x[methodName], x[FantasyLand[methodName]]);
+      });
+    });
+  }
 };

@@ -1,11 +1,12 @@
 'use strict';
 
-var runCompositionTests = require('./utils').runCompositionTests;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
 
 
 describe('B', function() {
 
-  runCompositionTests(S.compose);
+  utils.runCompositionTests(S.compose);
 
 });

@@ -1,21 +1,23 @@
 'use strict';
 
-var assert = require('assert');
-var throws = assert.throws;
+var assert      = require('assert');
 
-var area = require('./utils').area;
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var highArity = require('./utils').highArity;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var area        = utils.area;
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
+var highArity   = utils.highArity;
 
 
 describe('encase3', function() {
 
-  it('is a quaternary function', function() {
-    eq(typeof S.encase3, 'function');
-    eq(S.encase3.length, 4);
-  });
+  utils.assertQuaternaryFunction(S.encase3);
 
   it('type checks its arguments', function() {
     throws(function() { S.encase3([1, 2, 3]); },

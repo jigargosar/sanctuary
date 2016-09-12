@@ -1,31 +1,34 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('lastIndexOf', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.lastIndexOf, 'function');
-    eq(S.lastIndexOf.length, 2);
-  });
+  utils.assertBinaryFunction(S.lastIndexOf);
 
   it('type checks its arguments', function() {
     throws(function() { S.lastIndexOf('x', null); },
            errorEq(TypeError,
-                   'Type-class constraint violation\n' +
+                   'Invalid value\n' +
                    '\n' +
-                   'lastIndexOf :: ArrayLike b => a -> b -> Maybe Integer\n' +
-                   '               ^^^^^^^^^^^         ^\n' +
-                   '                                   1\n' +
+                   'lastIndexOf :: a -> List a -> Maybe Integer\n' +
+                   '                    ^^^^^^\n' +
+                   '                      1\n' +
                    '\n' +
                    '1)  null :: Null\n' +
                    '\n' +
-                   '‘lastIndexOf’ requires ‘b’ to satisfy the ArrayLike type-class constraint; the value at position 1 does not.\n'));
+                   'The value at position 1 is not a member of ‘List a’.\n'));
   });
 
   it('returns Nothing for an empty list', function() {

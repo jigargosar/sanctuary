@@ -1,11 +1,16 @@
 'use strict';
 
-var R = require('ramda');
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('invariants', function() {
@@ -20,10 +25,10 @@ describe('invariants', function() {
     }
   });
 
-  it('f(R.__) is equivalent to f for every "regular" function', function() {
+  it('f(S.__) is equivalent to f for every "regular" function', function() {
     for (var prop in S) {
       if (typeof S[prop] === 'function' && /^(?![A-Z])/.test(prop)) {
-        var result = S[prop](R.__);
+        var result = S[prop](S.__);
         eq(typeof result, 'function');
         eq(result.length, S[prop].length);
       }

@@ -1,7 +1,12 @@
 'use strict';
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var eq          = utils.eq;
+
 
 var add = function(a, b) { return a + b; };
 

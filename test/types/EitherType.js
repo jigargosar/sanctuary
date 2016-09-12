@@ -1,9 +1,12 @@
 'use strict';
 
-var $ = require('sanctuary-def');
+var $           = require('sanctuary-def');
 
-var eq = require('../utils').eq;
-var S = require('../..');
+var S           = require('../..');
+var utils       = require('../utils');
+
+
+var eq          = utils.eq;
 
 
 describe('EitherType', function() {

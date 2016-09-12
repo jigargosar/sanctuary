@@ -1,19 +1,18 @@
 'use strict';
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var eq          = utils.eq;
 
 
 describe('meld', function() {
 
-  it('is a unary function', function() {
-    eq(typeof S.meld, 'function');
-    eq(S.meld.length, 1);
-  });
+  utils.assertUnaryFunction(S.meld);
 
   it('composes a list of unary functions', function() {
-    eq(S.meld([]).length, 1);
-    eq(S.meld([])(99), 99);
     eq(S.meld([S.inc]).length, 1);
     eq(S.meld([S.inc])(99), 100);
     eq(S.meld([S.inc, Math.sqrt]).length, 1);

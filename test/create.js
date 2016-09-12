@@ -1,12 +1,18 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var $ = require('sanctuary-def');
+var $           = require('sanctuary-def');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 //  customEnv :: Array Type
@@ -20,10 +26,7 @@ var uncheckedCustomEnv  = S.create({checkTypes: false, env: customEnv});
 
 describe('create', function() {
 
-  it('is a unary function', function() {
-    eq(typeof S.create, 'function');
-    eq(S.create.length, 1);
-  });
+  utils.assertUnaryFunction(S.create);
 
   it('type checks its arguments', function() {
     throws(function() { S.create({}); },

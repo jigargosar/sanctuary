@@ -1,18 +1,21 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('isRight', function() {
 
-  it('is a unary function', function() {
-    eq(typeof S.isRight, 'function');
-    eq(S.isRight.length, 1);
-  });
+  utils.assertUnaryFunction(S.isRight);
 
   it('type checks its arguments', function() {
     throws(function() { S.isRight([1, 2, 3]); },

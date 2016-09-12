@@ -1,18 +1,21 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var errorEq = require('./utils').errorEq;
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('prepend', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.prepend, 'function');
-    eq(S.prepend.length, 2);
-  });
+  utils.assertBinaryFunction(S.prepend);
 
   it('type checks its arguments', function() {
     throws(function() { S.prepend('a', 'bc'); },

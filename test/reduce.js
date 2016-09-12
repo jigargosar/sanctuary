@@ -1,24 +1,26 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
+
 
 var unaryAdd = function(a) { return function(b) { return a + b; }; };
 var UnaryFoldable = {
-  reduce: function(f, a) {
-    return f(a, 1);
-  }
+  'fantasy-land/reduce': function(f, a) { return f(a, 1); }
 };
 
 describe('reduce', function() {
 
-  it('is a ternary function', function() {
-    eq(typeof S.reduce, 'function');
-    eq(S.reduce.length, 3);
-  });
+  utils.assertTernaryFunction(S.reduce);
 
   it('type checks its arguments', function() {
     throws(function() { S.reduce('xxx'); },

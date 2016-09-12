@@ -1,18 +1,21 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('mult', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.mult, 'function');
-    eq(S.mult.length, 2);
-  });
+  utils.assertBinaryFunction(S.mult);
 
   it('type checks its arguments', function() {
     throws(function() { S.mult('xxx', 2); },

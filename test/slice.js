@@ -1,18 +1,21 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('slice', function() {
 
-  it('is a ternary function', function() {
-    eq(typeof S.slice, 'function');
-    eq(S.slice.length, 3);
-  });
+  utils.assertTernaryFunction(S.slice);
 
   it('type checks its arguments', function() {
     throws(function() { S.slice(0.5); },

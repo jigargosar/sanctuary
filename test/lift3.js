@@ -1,20 +1,22 @@
 'use strict';
 
-var throws = require('assert').throws;
-var R = require('ramda');
+var assert      = require('assert');
 
-var area = require('./utils').area;
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var area        = utils.area;
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('lift3', function() {
 
-  it('is a quaternary function', function() {
-    eq(typeof S.lift3, 'function');
-    eq(S.lift3.length, 4);
-  });
+  utils.assertQuaternaryFunction(S.lift3);
 
   it('type checks its arguments', function() {
     throws(function() { S.lift3('wrong'); },
@@ -40,7 +42,7 @@ describe('lift3', function() {
     eq(S.lift3(S.reduce, [S.add], [0], [[1, 2, 3]]), [6]);
     eq(S.lift3(S.reduce, [S.add], [0], []), []);
 
-    eq(S.lift3(R.curry(area), S.dec, S.I, S.inc)(4), 6);
+    eq(S.lift3(area, S.dec, S.I, S.inc)(4), 6);
   });
 
 });

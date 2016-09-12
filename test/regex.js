@@ -1,19 +1,21 @@
 'use strict';
 
-var R = require('ramda');
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('regex', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.regex, 'function');
-    eq(S.regex.length, 2);
-  });
+  utils.assertBinaryFunction(S.regex);
 
   it('type checks its arguments', function() {
     throws(function() { S.regex('y'); },
@@ -53,7 +55,7 @@ describe('regex', function() {
                    'The value at position 1 is not a member of ‘("" | "g" | "i" | "m" | "gi" | "gm" | "im" | "gim")’.\n'));
 
     var G = function G() {};
-    G.prototype.toString = R.always('g');
+    G.prototype.toString = function() { return 'g'; };
 
     throws(function() { S.regex(new G()); },
            errorEq(TypeError,

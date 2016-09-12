@@ -1,10 +1,16 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('pairs', function() {
@@ -13,10 +19,7 @@ describe('pairs', function() {
     return a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0;
   };
 
-  it('is a unary function', function() {
-    eq(typeof S.pairs, 'function');
-    eq(S.pairs.length, 1);
-  });
+  utils.assertUnaryFunction(S.pairs);
 
   it('type checks its arguments', function() {
     throws(function() { S.pairs('xxx'); },

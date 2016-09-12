@@ -1,20 +1,23 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('ifElse', function() {
 
   var lt0 = function(x) { return x < 0; };
 
-  it('is a quaternary function', function() {
-    eq(typeof S.ifElse, 'function');
-    eq(S.ifElse.length, 4);
-  });
+  utils.assertQuaternaryFunction(S.ifElse);
 
   it('type checks its arguments', function() {
     throws(function() { S.ifElse('wrong'); },

@@ -1,20 +1,22 @@
 'use strict';
 
-var assert = require('assert');
-var throws = assert.throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var factorial = require('./utils').factorial;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
+var factorial   = utils.factorial;
 
 
 describe('encaseEither', function() {
 
-  it('is a ternary function', function() {
-    eq(typeof S.encaseEither, 'function');
-    eq(S.encaseEither.length, 3);
-  });
+  utils.assertTernaryFunction(S.encaseEither);
 
   it('type checks its arguments', function() {
     throws(function() { S.encaseEither(null); },

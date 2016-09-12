@@ -1,19 +1,21 @@
 'use strict';
 
-var R = require('ramda');
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('find', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.find, 'function');
-    eq(S.find.length, 2);
-  });
+  utils.assertBinaryFunction(S.find);
 
   it('type checks its arguments', function() {
     throws(function() { S.find([1, 2, 3]); },
@@ -28,7 +30,7 @@ describe('find', function() {
                    '\n' +
                    'The value at position 1 is not a member of ‘Function’.\n'));
 
-    throws(function() { S.find(R.T, null); },
+    throws(function() { S.find(S.K(true), null); },
            errorEq(TypeError,
                    'Invalid value\n' +
                    '\n' +
@@ -42,18 +44,18 @@ describe('find', function() {
   });
 
   it('returns Just the first element satisfying the predicate', function() {
-    eq(S.find(R.T, [null]), S.Just(null));
+    eq(S.find(S.K(true), [null]), S.Just(null));
     eq(S.find(function(n) { return n >= 0; }, [-1, 0, 1]), S.Just(0));
   });
 
   it('returns Nothing if no element satisfies the predicate', function() {
-    eq(S.find(R.T, []), S.Nothing);
-    eq(S.find(R.F, [1, 2, 3]), S.Nothing);
+    eq(S.find(S.K(true), []), S.Nothing);
+    eq(S.find(S.K(false), [1, 2, 3]), S.Nothing);
   });
 
   it('is curried', function() {
-    eq(S.find(R.T).length, 1);
-    eq(S.find(R.T)([null]), S.Just(null));
+    eq(S.find(S.K(true)).length, 1);
+    eq(S.find(S.K(true))([null]), S.Just(null));
   });
 
 });

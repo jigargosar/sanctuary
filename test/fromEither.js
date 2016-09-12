@@ -1,16 +1,20 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+
 
 describe('fromEither', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.fromEither, 'function');
-    eq(S.fromEither.length, 2);
-  });
+  utils.assertBinaryFunction(S.fromEither);
 
   it('type checks its arguments', function() {
     throws(function() { S.fromEither(0, [1, 2, 3]); },

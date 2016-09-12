@@ -1,15 +1,16 @@
 'use strict';
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var eq          = utils.eq;
 
 
 describe('pipe', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.pipe, 'function');
-    eq(S.pipe.length, 2);
-  });
+  utils.assertBinaryFunction(S.pipe);
 
   it('composes a list of functions assumed to be unary', function() {
     eq(S.pipe([], '99'), '99');

@@ -1,15 +1,16 @@
 'use strict';
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var eq          = utils.eq;
 
 
 describe('toEither', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.toEither, 'function');
-    eq(S.toEither.length, 2);
-  });
+  utils.assertBinaryFunction(S.toEither);
 
   it('returns Left of the first argument when second argument is `null`-y', function() {
     eq(S.toEither('a', null), S.Left('a'));

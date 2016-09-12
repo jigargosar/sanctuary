@@ -1,15 +1,16 @@
 'use strict';
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var eq          = utils.eq;
 
 
 describe('S', function() {
 
-  it('is a ternary function', function() {
-    eq(typeof S.C, 'function');
-    eq(S.C.length, 3);
-  });
+  utils.assertTernaryFunction(S.S);
 
   it('S(f, g, x) is equivalent to f(x)(g(x))', function() {
     eq(S.S(S.add, Math.sqrt, 100), 110);

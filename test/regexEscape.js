@@ -1,19 +1,23 @@
 'use strict';
 
-var jsc = require('jsverify');
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var jsc         = require('jsverify');
+
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('regexEscape', function() {
 
-  it('is a unary function', function() {
-    eq(typeof S.regexEscape, 'function');
-    eq(S.regexEscape.length, 1);
-  });
+  utils.assertUnaryFunction(S.regexEscape);
 
   it('type checks its arguments', function() {
     throws(function() { S.regexEscape(/(?:)/); },

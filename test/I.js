@@ -1,21 +1,20 @@
 'use strict';
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var eq          = utils.eq;
 
 
 describe('I', function() {
 
-  it('is a unary function', function() {
-    eq(typeof S.I, 'function');
-    eq(S.I.length, 1);
-  });
+  utils.assertUnaryFunction(S.I);
 
   it('returns its argument', function() {
     eq(S.I([1, 2, 3]), [1, 2, 3]);
     eq(S.I(['foo', 42]), ['foo', 42]);
-    eq(S.I({'@@type': 'my-package/Foreign'}),
-       {'@@type': 'my-package/Foreign'});
   });
 
 });

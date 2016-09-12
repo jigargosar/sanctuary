@@ -1,20 +1,23 @@
 'use strict';
-var assert = require('assert');
-var throws = assert.throws;
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var rem = require('./utils').rem;
-var highArity = require('./utils').highArity;
-var S = require('..');
+var assert      = require('assert');
+
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
+var highArity   = utils.highArity;
+var rem         = utils.rem;
 
 
 describe('encase2', function() {
 
-  it('is a ternary function', function() {
-    eq(typeof S.encase2, 'function');
-    eq(S.encase2.length, 3);
-  });
+  utils.assertTernaryFunction(S.encase2);
 
   it('type checks its arguments', function() {
     throws(function() { S.encase2([1, 2, 3]); },

@@ -1,22 +1,21 @@
 'use strict';
 
-var assert = require('assert');
-var throws = assert.throws;
+var assert      = require('assert');
 
-var R = require('ramda');
+var S           = require('..');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
-var square = require('./utils').square;
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('maybe', function() {
 
-  it('is a ternary function', function() {
-    eq(typeof S.maybe, 'function');
-    eq(S.maybe.length, 3);
-  });
+  utils.assertTernaryFunction(S.maybe);
 
   it('type checks its arguments', function() {
     throws(function() { S.maybe(0, [1, 2, 3]); },
@@ -31,7 +30,7 @@ describe('maybe', function() {
                    '\n' +
                    'The value at position 1 is not a member of ‘Function’.\n'));
 
-    throws(function() { S.maybe(0, R.length, [1, 2, 3]); },
+    throws(function() { S.maybe(0, S.prop('length'), [1, 2, 3]); },
            errorEq(TypeError,
                    'Invalid value\n' +
                    '\n' +
@@ -45,17 +44,17 @@ describe('maybe', function() {
   });
 
   it('can be applied to Nothing', function() {
-    eq(S.maybe(0, R.length, S.Nothing), 0);
+    eq(S.maybe(0, S.prop('length'), S.Nothing), 0);
   });
 
   it('can be applied to a Just', function() {
-    eq(S.maybe(0, R.length, S.Just([1, 2, 3])), 3);
+    eq(S.maybe(0, S.prop('length'), S.Just([1, 2, 3])), 3);
   });
 
   it('is curried', function() {
     eq(S.maybe(NaN).length, 2);
-    eq(S.maybe(NaN)(square).length, 1);
-    eq(S.maybe(NaN)(square)(S.Just(5)), 25);
+    eq(S.maybe(NaN)(Math.sqrt).length, 1);
+    eq(S.maybe(NaN)(Math.sqrt)(S.Just(9)), 3);
   });
 
 });

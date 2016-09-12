@@ -1,18 +1,21 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('parseJson', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.parseJson, 'function');
-    eq(S.parseJson.length, 2);
-  });
+  utils.assertBinaryFunction(S.parseJson);
 
   it('type checks its arguments', function() {
     throws(function() { S.parseJson('String'); },

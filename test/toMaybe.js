@@ -1,15 +1,16 @@
 'use strict';
 
-var eq = require('./utils').eq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var eq          = utils.eq;
 
 
 describe('toMaybe', function() {
 
-  it('is a unary function', function() {
-    eq(typeof S.toMaybe, 'function');
-    eq(S.toMaybe.length, 1);
-  });
+  utils.assertUnaryFunction(S.toMaybe);
 
   it('returns Nothing when applied to null/undefined', function() {
     eq(S.toMaybe(null), S.Nothing);

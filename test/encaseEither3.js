@@ -1,20 +1,23 @@
 'use strict';
 
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var area = require('./utils').area;
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var highArity = require('./utils').highArity;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var area        = utils.area;
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
+var highArity   = utils.highArity;
 
 
 describe('encaseEither3', function() {
 
-  it('is a quinary function', function() {
-    eq(typeof S.encaseEither3, 'function');
-    eq(S.encaseEither3.length, 5);
-  });
+  utils.assertQuinaryFunction(S.encaseEither3);
 
   it('type checks its arguments', function() {
     throws(function() { S.encaseEither3(null); },

@@ -1,19 +1,21 @@
 'use strict';
 
-var R = require('ramda');
-var throws = require('assert').throws;
+var assert      = require('assert');
 
-var eq = require('./utils').eq;
-var errorEq = require('./utils').errorEq;
-var S = require('..');
+var S           = require('..');
+
+var utils       = require('./utils');
+
+
+var throws      = assert.throws;
+
+var eq          = utils.eq;
+var errorEq     = utils.errorEq;
 
 
 describe('and', function() {
 
-  it('is a binary function', function() {
-    eq(typeof S.and, 'function');
-    eq(S.and.length, 2);
-  });
+  utils.assertBinaryFunction(S.and);
 
   it('can be applied to Booleans', function() {
     eq(S.and(false, false), false);
@@ -58,7 +60,7 @@ describe('and', function() {
                    '\n' +
                    'Since there is no type of which all the above values are members, the type-variable constraint has been violated.\n'));
 
-    throws(function() { S.and(R.__, false)([]); },
+    throws(function() { S.and(S.__, false)([]); },
            errorEq(TypeError,
                    'Type-variable constraint violation\n' +
                    '\n' +
