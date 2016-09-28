@@ -39,8 +39,10 @@ describe('toString', function() {
     eq(S.toString(new String('')), 'new String("")');
     eq(S.toString(new String('foo')), 'new String("foo")');
     eq(S.toString(new String('foo "bar" baz')), 'new String("foo \\"bar\\" baz")');
-    eq(S.toString(new Date(0)), 'new Date(0)');
-    eq(S.toString(new Date(1)), 'new Date(1)');
+    eq(S.toString(new Date(0)), 'new Date("1970-01-01T00:00:00.000Z")');
+    eq(S.toString(new Date(42)), 'new Date("1970-01-01T00:00:00.042Z")');
+    eq(S.toString(new Date(NaN)), 'new Date(NaN)');
+    eq(S.toString(new Date('2001-02-03T04:05:06')), 'new Date("2001-02-03T04:05:06.000Z")');
     eq(S.toString([]), '[]');
     eq(S.toString(['foo']), '["foo"]');
     eq(S.toString(['foo', 'bar', 'baz']), '["foo", "bar", "baz"]');
