@@ -6,10 +6,13 @@ var Z           = require('sanctuary-type-classes');
 //  Identity :: a -> Identity a
 var Identity = module.exports = function Identity(x) {
   return {
+    '@@type': 'my-package/Identity',
     'fantasy-land/equals': function(other) { return Z.equals(x, other.value); },
-    'fantasy-land/of': Identity,
     'fantasy-land/map': function(f) { return Identity(f(x)); },
-    'fantasy-land/ap': function(y) { return Identity(x(y)); },
+    'fantasy-land/ap': function(y) { return Identity(y.value(x)); },
+    'fantasy-land/traverse': function(f) { return Z.map(Identity, f(x)); },
+    constructor: Identity,
+    inspect: function() { return this.toString(x); },
     toString: function() { return 'Identity(' + Z.toString(x) + ')'; },
     value: x
   };

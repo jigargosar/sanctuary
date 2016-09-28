@@ -249,8 +249,8 @@
     'sanctuary/Applicative',
     function(x) {
       return _type(x) === 'Array' ||
-             Apply._test(x) && (hasMethod('of')(x) ||
-                                hasMethod('of')(x.constructor));
+             Apply._test(x) && (hasMethod('fantasy-land/of')(x) ||
+                                hasMethod('fantasy-land/of')(x.constructor));
     }
   );
 
@@ -263,7 +263,7 @@
         case 'Function':
           return true;
         default:
-          return Functor._test(x) && hasMethod('ap')(x);
+          return Functor._test(x) && hasMethod('fantasy-land/ap')(x);
       }
     }
   );
@@ -272,14 +272,14 @@
   var Chain = $.TypeClass(
     'sanctuary/Chain',
     function(x) {
-      return _type(x) === 'Array' || hasMethod('chain')(x);
+      return _type(x) === 'Array' || hasMethod('fantasy-land/chain')(x);
     }
   );
 
   //  Extend :: TypeClass
   var Extend = $.TypeClass(
     'sanctuary/Extend',
-    hasMethod('extend')
+    hasMethod('fantasy-land/extend')
   );
 
   //  Foldable :: TypeClass
@@ -291,7 +291,7 @@
         case 'Object':
           return true;
         default:
-          return hasMethod('reduce')(x);
+          return hasMethod('fantasy-land/reduce')(x);
       }
     }
   );
@@ -306,7 +306,7 @@
         case 'Object':
           return true;
         default:
-          return hasMethod('map')(x);
+          return hasMethod('fantasy-land/map')(x);
       }
     }
   );
@@ -330,7 +330,7 @@
         case 'String':
           return true;
         default:
-          return hasMethod('empty')(x);
+          return hasMethod('fantasy-land/empty')(x);
       }
     }
   );
@@ -348,13 +348,28 @@
   //  Semigroup :: TypeClass
   var Semigroup = $.TypeClass(
     'sanctuary/Semigroup',
-    hasMethod('concat')
+    function(x) {
+      switch (_type(x)) {
+        case 'Array':
+        case 'String':
+          return true;
+        default:
+          return hasMethod('fantasy-land/concat')(x);
+      }
+    }
   );
 
   //  Traversable :: TypeClass
   var Traversable = $.TypeClass(
     'sanctuary/Traversable',
-    hasMethod('traverse')
+    function(x) {
+      switch (_type(x)) {
+        case 'Array':
+          return true;
+        default:
+          return hasMethod('fantasy-land/traverse')(x);
+      }
+    }
   );
 
   var a = $.TypeVariable('a');
